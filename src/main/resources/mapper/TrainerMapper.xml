@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="works.mapper.TrainerMapper">
+
+<!--    SELECT trainer.*,ROUND(sum(score.score)/count(score.trainer_id),2) AS '平均分'-->
+<!--    from trainer left JOIN score ON score.trainer_id=trainer.id-->
+<!--    GROUP BY trainer.id-->
+    <select id="getPage" resultType="works.entity.Trainer">
+        select trainer.*,ROUND(sum(score.score)/count(score.trainer_id),2) as avgscore
+        from trainer left join score on trainer.id=score.trainer_id
+        <where>
+             trainer.status=1
+            <if test="name!=null and name!=''">
+                and trainer.name like concat('%',#{name},'%')
+            </if>
+        </where>
+        group by trainer.id
+        ORDER BY avgscore desc
+    </select>
+
+    <select id="getByUsername" resultType="works.entity.Trainer">
+        select trainer.*,ROUND(sum(score.score)/count(score.trainer_id),2) as avgscore,car.Num as carNum
+        from trainer left join car on car.trainer_id=trainer.id
+         left join score on trainer.id=score.trainer_id and car.status=1 where trainer.username=#{username}
+
+    </select>
+</mapper>

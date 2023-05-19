@@ -3,7 +3,7 @@ server:
 spring:
   application:
     #    应用的名称
-    name: reggie_take_out
+    name: works
   datasource:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
@@ -15,15 +15,17 @@ spring:
 #    port: 6379
 #    #    password: 1122
 #    database: 0
-  cache:
-    redis:
-      time-to-live: 1800000 #设置缓存数据的过期时间
+#  cache:
+#    redis:
+#      time-to-live: 1800000 #设置缓存数据的过期时间
 
 mybatis-plus:
   configuration:
     #在映射实体或者属性时，将数据库中表名和字段名中的下划线去掉，按照驼峰命名法映射
     map-underscore-to-camel-case: true
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  #打印sql语句
   global-config:
     db-config:
       id-type: ASSIGN_ID
+  mapper-locations: classpath:mapper/*.xml  #扫描xml文件
+
